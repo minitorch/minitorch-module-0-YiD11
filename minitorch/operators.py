@@ -69,7 +69,7 @@ def eq(a: float, b: float) -> float:
 
 def max(a: float, b: float) -> float:
     """Maximum of two numbers."""
-    return max(a, b)
+    return a if a > b else b
 
 def is_close(a: float, b: float) -> bool:
     """Check if two numbers are close."""
@@ -77,9 +77,7 @@ def is_close(a: float, b: float) -> bool:
 
 def sigmoid(a: float) -> float:
     """Sigmoid function."""
-    if a >= 0:
-        return 1.0 / (1.0 + math.exp(-a))
-    return math.exp(a) / (1.0 + math.exp(a))
+    return 1 / (math.exp(-a) + 1)
 
 def relu(a: float) -> float:
     """ReLU function."""
@@ -117,7 +115,7 @@ def relu_back(a: float, b: float) -> float:
 
 def map(f: Callable[[float], float], lst: Iterable[float]) -> list:
     """Map a function over a list."""
-    return list(map(f, lst))
+    return [f(x) for x in lst]
 
 def zipWith(f: Callable[[float, float], float], lst1: Iterable[float], lst2: Iterable[float]) -> list:
     """Zip two lists with a function."""
@@ -126,8 +124,11 @@ def zipWith(f: Callable[[float, float], float], lst1: Iterable[float], lst2: Ite
 def reduce(f: Callable[[float, float], float], lst: Iterable[float]) -> float:
     """Reduce a list with a function."""
     result = 0
-    for x in lst:
-        result = f(result, x)
+    for i, x in enumerate(lst):
+        if i == 0:
+            result = x
+        else:
+            result = f(result, x)
     return result
 
 def negList(lst: Iterable[float]) -> list:
